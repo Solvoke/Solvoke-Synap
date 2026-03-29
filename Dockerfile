@@ -78,7 +78,8 @@ COPY --from=builder /build/node_modules/@prisma/client ./node_modules/@prisma/cl
 
 # Install prisma CLI to isolated directory so it does not disturb standalone node_modules
 # Using --prefix puts everything under /prisma-cli/ with its own node_modules
-RUN npm install --prefix /prisma-cli --no-save prisma@7
+# Also install dotenv (required by prisma.config.ts)
+RUN npm install --prefix /prisma-cli --no-save prisma@7 dotenv
 
 # Copy Prisma v7 config file (must be in packages/web/ for config discovery)
 COPY --from=builder /build/packages/web/prisma.config.ts ./packages/web/prisma.config.ts

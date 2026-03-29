@@ -12,7 +12,8 @@ echo "[Startup] Running Prisma migrations..."
 # cd to packages/web so Prisma v7 can discover prisma.config.ts automatically
 cd /app/packages/web
 # Use prisma CLI from isolated /prisma-cli/ directory (separate from standalone node_modules)
-node /prisma-cli/node_modules/prisma/build/index.js migrate deploy
+# NODE_PATH lets prisma.config.ts resolve 'dotenv/config' and 'prisma/config' imports
+NODE_PATH=/prisma-cli/node_modules node /prisma-cli/node_modules/prisma/build/index.js migrate deploy
 echo "[Startup] Migrations complete."
 
 echo "[Startup] Starting Synap Web on port ${PORT:-3000}..."
