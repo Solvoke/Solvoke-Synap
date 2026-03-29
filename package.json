@@ -2,6 +2,7 @@
   "name": "solvoke-synap",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Solvoke Synap — Cross-platform AI conversation manager. Monorepo for @synap/core + synap-web.",
   "license": "AGPL-3.0-or-later",
   "workspaces": [
@@ -10,6 +11,7 @@
   ],
   "scripts": {
     "postinstall": "npm run build:core && cd packages/web && npx prisma generate",
+    "predev": "node scripts/ensure-ready.js",
     "build:core": "npm run build -w packages/core",
     "build:web": "npm run build -w packages/web",
     "build": "npm run build:core && npm run build:web",
