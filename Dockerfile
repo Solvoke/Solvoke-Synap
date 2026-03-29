@@ -76,8 +76,9 @@ COPY --from=builder /build/packages/web/prisma ./packages/web/prisma
 COPY --from=builder /build/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /build/node_modules/@prisma/client ./node_modules/@prisma/client
 
-# Copy prisma CLI from builder (avoid npm install which destroys standalone node_modules)
-COPY --from=builder /build/node_modules/prisma ./node_modules/prisma
+# Install prisma CLI to isolated directory so it does not disturb standalone node_modules
+# Using --prefix puts everything under /prisma-cli/ with its own node_modules
+RUN npm install --prefix /prisma-cli --no-save prisma@7
 
 # Copy Prisma v7 config file (must be in packages/web/ for config discovery)
 COPY --from=builder /build/packages/web/prisma.config.ts ./packages/web/prisma.config.ts

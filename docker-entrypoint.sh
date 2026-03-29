@@ -11,8 +11,8 @@ set -e
 echo "[Startup] Running Prisma migrations..."
 # cd to packages/web so Prisma v7 can discover prisma.config.ts automatically
 cd /app/packages/web
-# Use absolute path to prisma CLI (copied from builder, not installed via npm)
-node /app/node_modules/prisma/build/index.js migrate deploy
+# Use prisma CLI from isolated /prisma-cli/ directory (separate from standalone node_modules)
+node /prisma-cli/node_modules/prisma/build/index.js migrate deploy
 echo "[Startup] Migrations complete."
 
 echo "[Startup] Starting Synap Web on port ${PORT:-3000}..."
