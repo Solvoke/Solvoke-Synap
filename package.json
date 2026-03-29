@@ -9,6 +9,7 @@
     "packages/web"
   ],
   "scripts": {
+    "postinstall": "npm run build:core && cd packages/web && npx prisma generate",
     "build:core": "npm run build -w packages/core",
     "build:web": "npm run build -w packages/web",
     "build": "npm run build:core && npm run build:web",
