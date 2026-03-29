@@ -76,10 +76,10 @@ COPY --from=builder /build/packages/web/prisma ./packages/web/prisma
 COPY --from=builder /build/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /build/node_modules/@prisma/client ./node_modules/@prisma/client
 
-# Install prisma CLI + dotenv for running migrate deploy at startup
-RUN npm install --no-save prisma dotenv
+# Copy prisma CLI from builder (avoid npm install which destroys standalone node_modules)
+COPY --from=builder /build/node_modules/prisma ./node_modules/prisma
 
-# Copy Prisma v7 config file
+# Copy Prisma v7 config file (must be in packages/web/ for config discovery)
 COPY --from=builder /build/packages/web/prisma.config.ts ./packages/web/prisma.config.ts
 
 # Copy entrypoint script (at monorepo root)

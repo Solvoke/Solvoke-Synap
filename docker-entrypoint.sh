@@ -9,11 +9,12 @@
 set -e
 
 echo "[Startup] Running Prisma migrations..."
-# standalone 镜像中没有全局 npx，直接调用 node_modules 中的 prisma CLI
-# Monorepo: prisma schema is under packages/web/
-node ./node_modules/prisma/build/index.js migrate deploy --schema=./packages/web/prisma/schema.prisma
+# cd to packages/web so Prisma v7 can discover prisma.config.ts automatically
+cd /app/packages/web
+# Use absolute path to prisma CLI (copied from builder, not installed via npm)
+node /app/node_modules/prisma/build/index.js migrate deploy
 echo "[Startup] Migrations complete."
 
 echo "[Startup] Starting Synap Web on port ${PORT:-3000}..."
 # Monorepo standalone: server.js is at packages/web/server.js
-exec node packages/web/server.js
+exec node /app/packages/web/server.js
