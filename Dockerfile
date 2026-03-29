@@ -25,7 +25,9 @@ COPY packages/core/package.json ./packages/core/
 COPY packages/web/package.json ./packages/web/
 
 # Install all dependencies via npm workspaces (resolves @synap/core as symlink)
-RUN npm ci
+# --ignore-scripts: skip postinstall (build:core + prisma generate) since source
+# files are not yet available; the Dockerfile handles these steps explicitly below
+RUN npm ci --ignore-scripts
 
 # Copy core source and build it (web needs the compiled output)
 COPY packages/core/ ./packages/core/
@@ -63,20 +65,22 @@ RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
 # Copy standalone output (includes server.js and minimal node_modules)
+# In monorepo, standalone preserves directory structure: packages/web/server.js
 COPY --from=builder /build/packages/web/.next/standalone ./
-# Copy static assets (standalone does not include static and public)
-COPY --from=builder /build/packages/web/.next/static ./.next/static
+# Copy static assets to match monorepo structure
+COPY --from=builder /build/packages/web/.next/static ./packages/web/.next/static
 
-# Copy Prisma files (migration scripts and schema for migrate deploy at startup)
-COPY --from=builder /build/packages/web/prisma ./prisma
-COPY --from=builder /build/packages/web/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /build/packages/web/node_modules/@prisma/client ./node_modules/@prisma/client
+# Copy Prisma files for migrate deploy at startup
+# In monorepo, node_modules are hoisted to root, so copy from /build/node_modules/
+COPY --from=builder /build/packages/web/prisma ./packages/web/prisma
+COPY --from=builder /build/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /build/node_modules/@prisma/client ./node_modules/@prisma/client
 
 # Install prisma CLI + dotenv for running migrate deploy at startup
 RUN npm install --no-save prisma dotenv
 
-# Copy Prisma v7 config file (contains datasource.url)
-COPY --from=builder /build/packages/web/prisma.config.ts ./prisma.config.ts
+# Copy Prisma v7 config file
+COPY --from=builder /build/packages/web/prisma.config.ts ./packages/web/prisma.config.ts
 
 # Copy entrypoint script (at monorepo root)
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
