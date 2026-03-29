@@ -1,0 +1,70 @@
+// Synap Web — 数据库 Schema
+// 使用 PostgreSQL 存储对话数据，对齐 @synap/core 的类型定义
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// 对话记录 — 对应 @synap/core 的 Conversation 类型
+model Conversation {
+  id        String   @id // nanoid 生成，与 @synap/core 一致
+  platform  String   // Platform 枚举值: chatgpt | claude | deepseek | gemini | copilot | cursor
+  title     String
+  tags      String[] @default([]) // PostgreSQL 原生支持数组类型
+  projectId String?  // 关联的项目名称（可选）
+
+  // 元数据（ConversationMeta，扁平化存储避免嵌套 JSON）
+  externalId   String? // 原始平台的对话 ID，用于去重
+  externalUrl  String? // 原始平台的对话 URL
+  messageCount Int     @default(0) // 消息总数（冗余字段，方便列表查询）
+  model        String? // 使用的 AI 模型
+  workspace    String? // 关联的工作区名称（来自 IDE 插件）
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messages Message[]
+
+  // 索引：按平台和外部 ID 联合去重
+  @@unique([platform, externalId])
+  // 索引：按创建时间倒序查询（对话列表页）
+  @@index([createdAt(sort: Desc)])
+  // 索引：按更新时间倒序查询（搜索结果排序、首页最近对话）
+  @@index([updatedAt(sort: Desc)])
+  // 索引：按平台筛选
+  @@index([platform])
+}
+
+/// 单条消息 — 对应 @synap/core 的 Message 类型
+model Message {
+  id             String  @id // nanoid 生成
+  role           String  // MessageRole: user | assistant | system
+  content        String  // 消息文本内容
+  codeBlocks     String? // JSON 序列化的 CodeBlock[]，可选
+  timestamp      String  // ISO 8601 时间字符串
+  model          String? // 该条消息使用的模型（如 "gpt-4o"）
+  tokenCount     Int?    // Token 数量（可选）
+
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  // 排序索引：同一对话的消息按时间排序
+  @@index([conversationId])
+}
+
+/// API Key — 用于插件同步认证
+/// 当数据库中无任何 Key 时，sync API 默认放行（向后兼容）。
+/// 当至少存在一个 Key 时，插件必须在请求头带 Bearer token。
+model ApiKey {
+  id        String   @id @default(cuid())
+  name      String   // 用户自定义标签（如 "Chrome 插件"、"VSCode 插件"）
+  key       String   @unique // sk-xxxx 格式的密钥原文
+  createdAt DateTime @default(now())
+  lastUsedAt DateTime? // 最后使用时间，用于审计
+
+  @@index([key])
+}

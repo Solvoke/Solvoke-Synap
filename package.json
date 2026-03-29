@@ -1,0 +1,29 @@
+{
+  "name": "solvoke-synap",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Solvoke Synap — Cross-platform AI conversation manager. Monorepo for @synap/core + synap-web.",
+  "license": "AGPL-3.0-or-later",
+  "workspaces": [
+    "packages/core",
+    "packages/web"
+  ],
+  "scripts": {
+    "build:core": "npm run build -w packages/core",
+    "build:web": "npm run build -w packages/web",
+    "build": "npm run build:core && npm run build:web",
+    "dev": "npm run dev -w packages/web",
+    "test:core": "npm run test -w packages/core",
+    "test:web": "echo 'no tests yet'",
+    "test": "npm run test:core",
+    "lint:core": "npm run lint -w packages/core",
+    "lint:web": "npm run check -w packages/web",
+    "lint": "npm run lint:core && npm run lint:web",
+    "typecheck:core": "npm run typecheck -w packages/core",
+    "typecheck:web": "npx tsc --noEmit -p packages/web/tsconfig.json",
+    "typecheck": "npm run typecheck:core && npm run typecheck:web"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

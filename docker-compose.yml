@@ -1,0 +1,50 @@
+# ==============================================================================
+# Solvoke Synap — Docker Compose (Monorepo)
+# ==============================================================================
+# Start synap-web + PostgreSQL:
+#   docker compose up -d
+#
+# On first run:
+#   1. Build synap-web Docker image from monorepo root
+#   2. Start PostgreSQL and wait for readiness
+#   3. Run Prisma database migrations
+#   4. Start Next.js server
+#
+# Dashboard: http://localhost:3000
+# ==============================================================================
+
+services:
+  # Next.js Web Dashboard + API Server
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://synap:synap@db:5432/synap
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # PostgreSQL 数据库
+  # 不暴露端口到宿主机 — web 容器通过 Docker 内部网络 db:5432 访问即可
+  # 如需外部调试连接，可取消注释 ports 或 docker compose exec db psql -U synap
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: synap
+      POSTGRES_PASSWORD: synap
+      POSTGRES_DB: synap
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U synap"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pgdata:
