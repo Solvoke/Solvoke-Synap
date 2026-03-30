@@ -221,7 +221,7 @@ export function ApiKeyManager({ initialKeys }: ApiKeyManagerProps) {
             /* 空状态 */
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <p className="text-muted-foreground text-sm">{t("empty")}</p>
-              <p className="text-muted-foreground mt-1 text-xs">{t("emptyDescription")}</p>
+              <p className="mt-1 text-muted-foreground text-xs">{t("emptyDescription")}</p>
             </div>
           ) : (
             /* Key 列表 */
@@ -240,7 +240,7 @@ export function ApiKeyManager({ initialKeys }: ApiKeyManagerProps) {
                   <TableRow key={apiKey.id}>
                     <TableCell className="font-medium">{apiKey.name}</TableCell>
                     <TableCell>
-                      <code className="bg-muted rounded px-2 py-1 text-xs">{apiKey.keyPreview}</code>
+                      <code className="rounded bg-muted px-2 py-1 text-xs">{apiKey.keyPreview}</code>
                     </TableCell>
                     <TableCell className="text-muted-foreground text-sm">{formatDate(apiKey.createdAt)}</TableCell>
                     <TableCell className="text-muted-foreground text-sm">

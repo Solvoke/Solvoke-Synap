@@ -42,7 +42,7 @@ export function TrendChart({ data }: TrendChartProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium">{t("sevenDayTrend")}</CardTitle>
+        <CardTitle className="font-medium text-sm">{t("sevenDayTrend")}</CardTitle>
         <CardDescription>{t("trendDescription", { count: totalThisWeek })}</CardDescription>
       </CardHeader>
       <CardContent className="pt-0">

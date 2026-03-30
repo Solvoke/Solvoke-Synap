@@ -62,16 +62,16 @@ export async function StatCards({
         const content = (
           <Card
             key={card.title}
-            className="group p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+            className="group hover:-translate-y-0.5 p-6 transition-all duration-200 hover:shadow-md"
           >
             <CardContent className="p-0">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2 text-muted-foreground text-sm">
                 <Icon className="h-4 w-4 transition-colors group-hover:text-primary" />
                 <span>{card.title}</span>
               </div>
               <div className="mt-3">
-                <p className="text-3xl font-bold tracking-tight">{card.value.toLocaleString()}</p>
-                <p className="text-xs text-muted-foreground mt-1">{card.description}</p>
+                <p className="font-bold text-3xl tracking-tight">{card.value.toLocaleString()}</p>
+                <p className="mt-1 text-muted-foreground text-xs">{card.description}</p>
               </div>
             </CardContent>
           </Card>

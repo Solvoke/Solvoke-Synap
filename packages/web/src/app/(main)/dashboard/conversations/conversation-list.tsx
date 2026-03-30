@@ -180,7 +180,7 @@ export function ConversationList({ conversations, platform }: ConversationListPr
                 <Card className="transition-colors hover:bg-accent/50">
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between gap-2">
-                      <CardTitle className="text-base font-medium leading-snug">{conv.title}</CardTitle>
+                      <CardTitle className="font-medium text-base leading-snug">{conv.title}</CardTitle>
                       <Badge variant="outline" className={`shrink-0 ${platformInfo}`}>
                         {getPlatformLabel(conv.platform)}
                       </Badge>

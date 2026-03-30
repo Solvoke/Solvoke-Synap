@@ -34,7 +34,7 @@ export default async function ConversationsPage({ searchParams }: PageProps) {
       {/* 页面标题 + 筛选 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">{t("allConversations")}</h1>
+          <h1 className="font-bold text-2xl tracking-tight">{t("allConversations")}</h1>
           <p className="text-muted-foreground text-sm">{t("totalRecords", { count: data.total })}</p>
         </div>
         <PlatformFilter currentPlatform={platform} />

@@ -93,7 +93,7 @@ export function VersionCheckCard() {
 
         {/* 检查结果 */}
         {result.status === "up-to-date" && (
-          <p className="text-sm text-green-600 dark:text-green-400">{t("upToDate")}</p>
+          <p className="text-green-600 text-sm dark:text-green-400">{t("upToDate")}</p>
         )}
 
         {result.status === "update-available" && (

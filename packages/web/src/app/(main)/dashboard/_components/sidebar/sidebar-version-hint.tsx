@@ -111,7 +111,7 @@ export function SidebarVersionHint() {
         </span>
         <span className="text-muted-foreground text-xs">v{APP_CONFIG.version}</span>
       </div>
-      <div className="flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400">
+      <div className="flex items-center gap-1 text-blue-600 text-xs dark:text-blue-400">
         <span>{t("newVersion", { version: latestVersion })}</span>
         {releaseUrl && (
           <a

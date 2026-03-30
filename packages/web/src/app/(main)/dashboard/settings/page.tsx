@@ -18,7 +18,7 @@ export default async function SettingsPage() {
     <div className="space-y-6">
       {/* 页面标题 */}
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">{t("title")}</h1>
+        <h1 className="font-bold text-2xl tracking-tight">{t("title")}</h1>
         <p className="text-muted-foreground text-sm">{t("description")}</p>
       </div>
 

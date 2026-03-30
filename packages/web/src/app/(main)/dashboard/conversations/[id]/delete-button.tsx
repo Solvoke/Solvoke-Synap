@@ -68,7 +68,7 @@ export function DeleteConversationButton({ conversationId, conversationTitle }: 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" size="sm" className="text-destructive hover:bg-destructive/10 gap-1">
+        <Button variant="outline" size="sm" className="gap-1 text-destructive hover:bg-destructive/10">
           <Trash2 className="size-4" />
           {tCommon("delete")}
         </Button>

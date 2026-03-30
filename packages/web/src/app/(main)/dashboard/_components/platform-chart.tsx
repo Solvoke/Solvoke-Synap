@@ -26,10 +26,10 @@ export function PlatformChart({ data, totalConversations }: PlatformChartProps) 
     return (
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium">{t("platformDistribution")}</CardTitle>
+          <CardTitle className="font-medium text-sm">{t("platformDistribution")}</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center h-[200px]">
-          <p className="text-sm text-muted-foreground">{t("noDataYet")}</p>
+        <CardContent className="flex h-[200px] items-center justify-center">
+          <p className="text-muted-foreground text-sm">{t("noDataYet")}</p>
         </CardContent>
       </Card>
     );
@@ -54,7 +54,7 @@ export function PlatformChart({ data, totalConversations }: PlatformChartProps) 
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium">{t("platformDistribution")}</CardTitle>
+        <CardTitle className="font-medium text-sm">{t("platformDistribution")}</CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
         <ChartContainer config={chartConfig} className="h-[200px] w-full">
@@ -78,7 +78,7 @@ export function PlatformChart({ data, totalConversations }: PlatformChartProps) 
                   if (viewBox && "cx" in viewBox && "cy" in viewBox) {
                     return (
                       <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
-                        <tspan x={viewBox.cx} y={(viewBox.cy ?? 0) - 8} className="fill-foreground text-2xl font-bold">
+                        <tspan x={viewBox.cx} y={(viewBox.cy ?? 0) - 8} className="fill-foreground font-bold text-2xl">
                           {totalConversations.toLocaleString()}
                         </tspan>
                         <tspan x={viewBox.cx} y={(viewBox.cy ?? 0) + 12} className="fill-muted-foreground text-xs">
@@ -95,7 +95,7 @@ export function PlatformChart({ data, totalConversations }: PlatformChartProps) 
         </ChartContainer>
 
         {/* 图例：平台列表 */}
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 mt-2">
+        <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1">
           {chartData.map((entry) => (
             <div key={entry.name} className="flex items-center gap-1.5 text-xs">
               <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: entry.fill }} />
