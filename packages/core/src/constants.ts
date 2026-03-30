@@ -118,3 +118,6 @@ export const DEFAULT_NOTIFICATIONS = true;
 
 /** nanoid 默认长度 */
 export const DEFAULT_ID_LENGTH = 21;
+
+// CI TEST: intentional type error — delete after test
+export const INTENTIONAL_TYPE_ERROR: number = 'this is not a number';
