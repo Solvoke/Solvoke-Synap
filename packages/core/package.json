@@ -32,7 +32,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.tooldeck.cn/synap-project/synap-core.git"
+    "url": "https://github.com/Solvoke/Solvoke-Synap.git",
+    "directory": "packages/core"
   },
   "keywords": [
     "synap",
