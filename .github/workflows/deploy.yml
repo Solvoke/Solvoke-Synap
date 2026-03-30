@@ -36,25 +36,14 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p "$DEMO_PORT" "$DEMO_HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
-          SSH_CMD="ssh -i ~/.ssh/deploy_key -p $DEMO_PORT"
+          SSH_CMD="ssh -i ~/.ssh/deploy_key -p $DEMO_PORT -tt"
           SCP_CMD="scp -i ~/.ssh/deploy_key -P $DEMO_PORT"
 
           # Transfer image
           $SCP_CMD /tmp/synap-web.tar.gz "$DEMO_USER@$DEMO_HOST:/tmp/synap-web.tar.gz"
 
-          # Load image and restart services
-          $SSH_CMD "$DEMO_USER@$DEMO_HOST" << 'DEPLOY_SCRIPT'
-            set -e
-            echo "[Deploy] Loading image..."
-            sudo docker load -i /tmp/synap-web.tar.gz
-            echo "[Deploy] Restarting web service..."
-            sudo docker compose -f /opt/synap/docker-compose.yml down web
-            sudo docker compose -f /opt/synap/docker-compose.yml up -d web
-            echo "[Deploy] Cleaning up..."
-            rm -f /tmp/synap-web.tar.gz
-            sudo docker image prune -f
-            echo "[Deploy] Done."
-          DEPLOY_SCRIPT
+          # Load image and restart services (use -tt to force pty for sudo use_pty)
+          $SSH_CMD "$DEMO_USER@$DEMO_HOST" "set -e && echo '[Deploy] Loading image...' && sudo docker load -i /tmp/synap-web.tar.gz && echo '[Deploy] Restarting web service...' && sudo docker compose -f /opt/synap/docker-compose.yml down web && sudo docker compose -f /opt/synap/docker-compose.yml up -d web && echo '[Deploy] Cleaning up...' && rm -f /tmp/synap-web.tar.gz && sudo docker image prune -f && echo '[Deploy] Done.'"
 
       - name: Health check
         run: |
