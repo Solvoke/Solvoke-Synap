@@ -46,7 +46,7 @@ jobs:
           $SSH_CMD "$DEMO_USER@$DEMO_HOST" << 'DEPLOY_SCRIPT'
             set -e
             echo "[Deploy] Loading image..."
-            sudo docker load < /tmp/synap-web.tar.gz
+            sudo docker load -i /tmp/synap-web.tar.gz
             echo "[Deploy] Restarting web service..."
             sudo docker compose -f /opt/synap/docker-compose.yml down web
             sudo docker compose -f /opt/synap/docker-compose.yml up -d web
