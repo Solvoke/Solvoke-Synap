@@ -17,9 +17,6 @@
 FROM node:20-alpine AS deps
 WORKDIR /build
 
-# CI TEST: intentional Docker build failure — delete after test
-RUN echo "Intentional failure" && exit 1
-
 # Copy root workspace config + lockfile
 COPY package.json package-lock.json ./
 

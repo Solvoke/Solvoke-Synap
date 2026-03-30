@@ -1,5 +1,7 @@
 # Solvoke Synap
 
+<!-- CI TEST: README-only change to verify CI triggers on docs-only commits -->
+
 > Cross-platform AI conversation manager. Collect, search, and organize your chats from ChatGPT, Claude, Copilot, Cursor, and more.
 
 This is the monorepo for Solvoke Synap's open-source components:
