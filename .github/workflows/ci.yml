@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # npm ci triggers postinstall: build:core + prisma generate
+      - name: Install dependencies
+        run: npm ci
+
+      # --- packages/core checks ---
+      - name: "Core: lint"
+        run: npm run lint:core
+
+      - name: "Core: typecheck"
+        run: npm run typecheck:core
+
+      - name: "Core: test"
+        run: npm run test:core
+
+      # --- packages/web checks ---
+      - name: "Web: biome check"
+        run: npm run lint:web
+
+      - name: "Web: typecheck"
+        run: npm run typecheck:web
+
+      # --- Docker build verify (no push, just verify build succeeds) ---
+      - name: "Docker: build verify"
+        run: docker build -t synap-web:ci-test .

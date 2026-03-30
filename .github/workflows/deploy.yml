@@ -1,0 +1,76 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Prevent concurrent deployments
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t synap-web:latest .
+
+      - name: Export image
+        run: docker save synap-web:latest | gzip > /tmp/synap-web.tar.gz
+
+      - name: Deploy to Demo station
+        env:
+          SSH_KEY: ${{ secrets.DEMO_SSH_PRIVATE_KEY }}
+          DEMO_HOST: ${{ secrets.DEMO_HOST }}
+          DEMO_PORT: ${{ secrets.DEMO_PORT }}
+          DEMO_USER: ${{ secrets.DEMO_USER }}
+        run: |
+          # Setup SSH
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "$DEMO_PORT" "$DEMO_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+          SSH_CMD="ssh -i ~/.ssh/deploy_key -p $DEMO_PORT"
+          SCP_CMD="scp -i ~/.ssh/deploy_key -P $DEMO_PORT"
+
+          # Transfer image
+          $SCP_CMD /tmp/synap-web.tar.gz "$DEMO_USER@$DEMO_HOST:/tmp/synap-web.tar.gz"
+
+          # Load image and restart services
+          $SSH_CMD "$DEMO_USER@$DEMO_HOST" << 'DEPLOY_SCRIPT'
+            set -e
+            echo "[Deploy] Loading image..."
+            sudo docker load < /tmp/synap-web.tar.gz
+            echo "[Deploy] Restarting web service..."
+            sudo docker compose -f /opt/synap/docker-compose.yml down web
+            sudo docker compose -f /opt/synap/docker-compose.yml up -d web
+            echo "[Deploy] Cleaning up..."
+            rm -f /tmp/synap-web.tar.gz
+            sudo docker image prune -f
+            echo "[Deploy] Done."
+          DEPLOY_SCRIPT
+
+      - name: Health check
+        run: |
+          echo "Waiting for service to start..."
+          sleep 15
+          for i in $(seq 1 20); do
+            if curl -sf https://synapdemo.solvoke.com/api/health | grep -q '"status":"ok"'; then
+              echo "Health check passed!"
+              exit 0
+            fi
+            echo "Attempt $i/20 - waiting..."
+            sleep 5
+          done
+          echo "Health check failed!"
+          exit 1
+
+      - name: Cleanup
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
