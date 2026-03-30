@@ -3,8 +3,8 @@
 # Solvoke Synap — One-Click Deploy Script
 # ==============================================================================
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/Solvoke/Solvoke-Synap/main/deploy.sh | bash
-#   # or after cloning:
+#   git clone https://github.com/Solvoke/Solvoke-Synap.git
+#   cd Solvoke-Synap
 #   ./deploy.sh
 #
 # Environment variables (optional):
@@ -16,7 +16,6 @@
 set -euo pipefail
 
 # -- Constants -----------------------------------------------------------------
-REPO_URL="https://github.com/Solvoke/Solvoke-Synap.git"
 MIN_DOCKER_VERSION="20.10"
 MIN_COMPOSE_VERSION="2.0"
 HEALTH_CHECK_TIMEOUT=120
@@ -109,32 +108,6 @@ check_port() {
     fi
   fi
   return 0
-}
-
-# -- Clone or update repo ------------------------------------------------------
-setup_repo() {
-  # If we're already in a Solvoke-Synap repo, skip clone
-  if [ -f "docker-compose.yml" ] && [ -f "Dockerfile" ]; then
-    info "Using existing directory: $(pwd)"
-    return
-  fi
-
-  # If Solvoke-Synap directory exists, enter it
-  if [ -d "Solvoke-Synap" ]; then
-    cd Solvoke-Synap
-    info "Found existing Solvoke-Synap directory, pulling latest..."
-    git pull --ff-only origin main 2>/dev/null || warn "Could not pull latest (offline or no git). Using existing files."
-    return
-  fi
-
-  # Fresh clone
-  info "Cloning Solvoke Synap..."
-  if ! command -v git &>/dev/null; then
-    fail "Git is not installed. Install git and try again."
-  fi
-  git clone --depth 1 "$REPO_URL" Solvoke-Synap
-  cd Solvoke-Synap
-  ok "Repository cloned."
 }
 
 # -- Configure -----------------------------------------------------------------
@@ -287,8 +260,12 @@ main() {
   printf "${BOLD}Solvoke Synap — One-Click Deploy${NC}\n"
   echo ""
 
+  # Ensure we're in the project root
+  if [ ! -f "docker-compose.yml" ] || [ ! -f "Dockerfile" ]; then
+    fail "Please run this script from the Solvoke-Synap project root.\n  Usage: git clone https://github.com/Solvoke/Solvoke-Synap.git && cd Solvoke-Synap && ./deploy.sh"
+  fi
+
   preflight
-  setup_repo
   configure
   generate_override
   deploy

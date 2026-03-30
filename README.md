@@ -12,8 +12,8 @@ This is the monorepo for Solvoke Synap's open-source components:
 ## Quick Start (Docker)
 
 ```bash
-git clone https://github.com/Solvoke/synap.git
-cd synap
+git clone https://github.com/Solvoke/Solvoke-Synap.git
+cd Solvoke-Synap
 
 # One-click deploy (recommended)
 ./deploy.sh
