@@ -37,6 +37,7 @@ packages/web/prisma/*.db-journal
 
 # Docker
 .docker/
+docker-compose.override.yml
 
 # Test coverage
 coverage/

@@ -15,11 +15,32 @@ This is the monorepo for Solvoke Synap's open-source components:
 git clone https://github.com/Solvoke/synap.git
 cd synap
 
-# Start with Docker Compose (includes PostgreSQL)
-docker compose up -d
+# One-click deploy (recommended)
+./deploy.sh
 ```
 
+The deploy script automatically:
+- Checks Docker and Docker Compose versions
+- Generates a random database password
+- Detects port conflicts and picks an available port
+- Starts all services and waits for health check
+
 Dashboard: **http://localhost:3000**
+
+### Configuration
+
+Set environment variables before running `deploy.sh`:
+
+```bash
+SYNAP_PORT=8080 ./deploy.sh           # Custom port
+SYNAP_DB_PASSWORD=mypass ./deploy.sh   # Custom database password
+```
+
+### Manual deploy
+
+```bash
+docker compose up -d
+```
 
 ## Development Setup
 
