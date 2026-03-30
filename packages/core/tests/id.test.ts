@@ -26,9 +26,4 @@ describe('generateId', () => {
     // nanoid 默认字符集：A-Za-z0-9_-
     expect(id).toMatch(/^[A-Za-z0-9_-]+$/);
   });
-
-  // CI TEST: intentional test failure — delete after test
-  it('should intentionally fail for CI verification', () => {
-    expect(true).toBe(false);
-  });
 });
