@@ -1,7 +1,7 @@
 /**
  * Script: generate-theme-presets.ts
  *
- * This script scans the /styles/presets directory for CSS files containing theme definitions.
+ * This script scans the /app/styles/presets directory for CSS files containing theme definitions.
  * It extracts `label:`, `value:`, and primary color definitions (`--primary`) for both light and dark modes.
  * These primary colors are used to visually represent each theme in the UI (e.g., colored dots or theme previews).
  * Default theme colors are fetched from /app/globals.css.
@@ -19,7 +19,7 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
-const presetDir = path.resolve(__dirname, "../styles/presets");
+const presetDir = path.resolve(__dirname, "../app/styles/presets");
 
 if (!fs.existsSync(presetDir)) {
   console.error(`[Error] Preset directory not found at: ${presetDir}`);
