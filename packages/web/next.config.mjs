@@ -16,7 +16,9 @@ const nextConfig = {
   // Monorepo: trace dependencies from the workspace root (2 levels up from packages/web)
   // This ensures standalone output includes workspace packages like @synap/core
   outputFileTracingRoot: join(__dirname, "../../"),
-  reactCompiler: true,
+  // React Compiler: only enable in production build.
+  // In dev mode it adds heavy per-file compilation overhead.
+  reactCompiler: process.env.NODE_ENV === "production",
   compiler: {
     // 生产环境移除 console.log/info/debug，但保留 error/warn 用于服务端日志
     removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "warn"] } : false,
