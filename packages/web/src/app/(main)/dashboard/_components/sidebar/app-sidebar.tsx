@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 
-import { Command } from "lucide-react";
 import { useShallow } from "zustand/react/shallow";
 
 import { LocaleSwitcher } from "@/components/locale-switcher";
+import { SynapLogo } from "@/components/synap-logo";
 import {
   Sidebar,
   SidebarContent,
@@ -41,7 +41,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <Link prefetch={false} href="/dashboard">
-                <Command />
+                <SynapLogo size={20} />
                 <span className="font-semibold text-base">{APP_CONFIG.name}</span>
               </Link>
             </SidebarMenuButton>
