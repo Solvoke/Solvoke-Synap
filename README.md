@@ -92,9 +92,9 @@ PORT=4000 npm run dev
 ```
 Browser Extensions ──┐
   (ChatGPT, Claude)  │
-                     ├──▶ synap-web (API Server + Dashboard)
+                     ├──> synap-web (API Server + Dashboard)
 IDE Extensions ──────┘         │
-  (Copilot, Cursor,            ▼
+  (Copilot, Cursor,            v
    Claude Code)          PostgreSQL
                               │
                      @synap/core (shared types)

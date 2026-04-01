@@ -10,7 +10,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ExternalLink, FolderOpen } from "lucide-react";
 import { getFormatter, getTranslations } from "next-intl/server";
 
 import { Badge } from "@/components/ui/badge";
@@ -93,7 +93,8 @@ export default async function ConversationDetailPage({ params, searchParams }: P
             ))}
             {conversation.workspace && (
               <Badge variant="outline" className="text-xs">
-                📁 {conversation.workspace}
+                <FolderOpen className="mr-1 h-3 w-3" />
+                {conversation.workspace}
               </Badge>
             )}
             {conversation.externalUrl && (
@@ -103,7 +104,7 @@ export default async function ConversationDetailPage({ params, searchParams }: P
                 rel="noopener noreferrer"
                 className="text-primary text-xs underline-offset-4 hover:underline"
               >
-                {t("viewOriginal")} ↗
+                {t("viewOriginal")} <ExternalLink className="ml-1 inline h-3 w-3" />
               </a>
             )}
           </div>
