@@ -165,6 +165,10 @@ This project is licensed under **AGPL-3.0**. See [LICENSE](packages/core/LICENSE
 
 The AGPL license ensures that modifications to the data layer remain open-source, protecting user trust while allowing self-hosting.
 
+## Acknowledgments
+
+The web dashboard UI is built on top of [next-shadcn-admin-dashboard](https://github.com/arhamkhnz/next-shadcn-admin-dashboard) by [@arhamkhnz](https://github.com/arhamkhnz) (MIT License).
+
 ---
 
 <div align="center">
