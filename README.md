@@ -33,6 +33,16 @@ Solvoke Synap bridges this gap:
 - **Auto-sync from plugins** -- Browser extension and IDE plugins collect conversations automatically
 - **Self-hosted** -- Deploy with one command, keep full control of your data
 
+## Security & Privacy First
+
+We understand that your codebase and AI conversations contain highly sensitive intellectual property.
+
+Synap is built on a strict **zero-telemetry** and **local-first** architecture:
+
+- **Direct Connection:** Data flows exclusively and directly from your browser/IDE extensions to your self-hosted API server.
+- **No Middlemen:** There are no relay servers, no analytics trackers, and no third-party APIs involved in the data collection process.
+- **Audit-Friendly:** The entire data processing layer (`synap-web` and `@synap/core`) is open-source under AGPL-3.0. You can inspect exactly how your data is handled.
+
 ## Architecture
 
 ```
