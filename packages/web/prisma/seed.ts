@@ -657,11 +657,36 @@ function generateBulkConversations(): SeedConversation[] {
   // Daily conversation counts for last 30 days (creates natural wave pattern)
   // Pattern: weekdays busier, weekends quieter, with some spikes
   const dailyCounts = [
-    3, 2, 4, 5, 3, 1, 1,  // week 1 (oldest)
-    2, 4, 3, 6, 4, 2, 1,  // week 2
-    3, 5, 4, 7, 5, 2, 2,  // week 3 (growing trend)
-    4, 6, 5, 8, 6, 3, 2,  // week 4 (most recent, highest)
-    5, 7,                  // last 2 days (today area)
+    3,
+    2,
+    4,
+    5,
+    3,
+    1,
+    1, // week 1 (oldest)
+    2,
+    4,
+    3,
+    6,
+    4,
+    2,
+    1, // week 2
+    3,
+    5,
+    4,
+    7,
+    5,
+    2,
+    2, // week 3 (growing trend)
+    4,
+    6,
+    5,
+    8,
+    6,
+    3,
+    2, // week 4 (most recent, highest)
+    5,
+    7, // last 2 days (today area)
   ];
 
   let topicIdx = 0;
@@ -701,10 +726,7 @@ function generateBulkConversations(): SeedConversation[] {
 }
 
 // Merge detailed + bulk conversations
-const ALL_CONVERSATIONS = [
-  ...SEED_CONVERSATIONS,
-  ...generateBulkConversations(),
-];
+const ALL_CONVERSATIONS = [...SEED_CONVERSATIONS, ...generateBulkConversations()];
 
 // --- 种子插入逻辑 ---
 
@@ -764,7 +786,9 @@ async function seed() {
     console.log(`[Seed] Created: [${conv.platform}] ${conv.title}`);
   }
 
-  console.log(`[Seed] Done. ${ALL_CONVERSATIONS.length} conversations created (${SEED_CONVERSATIONS.length} detailed + ${ALL_CONVERSATIONS.length - SEED_CONVERSATIONS.length} bulk).`);
+  console.log(
+    `[Seed] Done. ${ALL_CONVERSATIONS.length} conversations created (${SEED_CONVERSATIONS.length} detailed + ${ALL_CONVERSATIONS.length - SEED_CONVERSATIONS.length} bulk).`,
+  );
 }
 
 seed()

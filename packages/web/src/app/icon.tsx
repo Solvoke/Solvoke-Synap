@@ -14,11 +14,8 @@ export default function Icon() {
         justifyContent: "center",
       }}
     >
-      <svg
-        viewBox="0 0 128 128"
-        width="32"
-        height="32"
-      >
+      <svg viewBox="0 0 128 128" width="32" height="32" role="img" aria-label="Solvoke Synap">
+        <title>Solvoke Synap</title>
         <rect x="4" y="4" width="120" height="120" rx="26" ry="26" fill="#1A1A1A" />
         <path
           d="M 74 30 C 50 30, 38 42, 38 54 C 38 66, 52 70, 64 70 C 76 70, 90 74, 90 86 C 90 98, 78 106, 54 106"
