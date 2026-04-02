@@ -605,31 +605,134 @@ Key optimizations:
   },
 ];
 
+// --- 批量生成对话（用于图表展示） ---
+
+/** 为图表趋势生成近 30 天分布的对话 */
+function generateBulkConversations(): SeedConversation[] {
+  const platforms = [
+    { platform: "chatgpt", model: "gpt-4o" },
+    { platform: "claude", model: "claude-sonnet-4-20250514" },
+    { platform: "cursor", model: "claude-sonnet-4-20250514", workspace: "my-project" },
+    { platform: "copilot", model: "gpt-4o", workspace: "api-server" },
+    { platform: "claude-code", model: "claude-sonnet-4-20250514", workspace: "synap-web" },
+    { platform: "deepseek", model: "deepseek-v3" },
+    { platform: "gemini", model: "gemini-2.5-pro" },
+  ];
+
+  const topics = [
+    "Debug async race condition",
+    "Optimize SQL query performance",
+    "Write unit tests for auth module",
+    "Implement dark mode toggle",
+    "Fix CORS middleware config",
+    "Add pagination to API endpoint",
+    "Refactor error handling pattern",
+    "Review pull request feedback",
+    "Design database schema migration",
+    "Configure CI/CD pipeline stages",
+    "Implement WebSocket connection",
+    "Add input validation with zod",
+    "Fix memory leak in event listener",
+    "Set up Docker multi-stage build",
+    "Create reusable form component",
+    "Implement search with debounce",
+    "Add retry logic for API calls",
+    "Fix timezone conversion bug",
+    "Optimize bundle size analysis",
+    "Write E2E test for checkout flow",
+    "Implement file upload handler",
+    "Fix hydration mismatch error",
+    "Add OpenAPI spec generation",
+    "Configure log aggregation",
+    "Implement cache invalidation",
+    "Debug CSS grid layout issue",
+    "Add breadcrumb navigation",
+    "Fix infinite scroll pagination",
+    "Implement undo/redo history",
+    "Optimize image lazy loading",
+  ];
+
+  const conversations: SeedConversation[] = [];
+
+  // Daily conversation counts for last 30 days (creates natural wave pattern)
+  // Pattern: weekdays busier, weekends quieter, with some spikes
+  const dailyCounts = [
+    3, 2, 4, 5, 3, 1, 1,  // week 1 (oldest)
+    2, 4, 3, 6, 4, 2, 1,  // week 2
+    3, 5, 4, 7, 5, 2, 2,  // week 3 (growing trend)
+    4, 6, 5, 8, 6, 3, 2,  // week 4 (most recent, highest)
+    5, 7,                  // last 2 days (today area)
+  ];
+
+  let topicIdx = 0;
+  for (let dayOffset = 0; dayOffset < dailyCounts.length; dayOffset++) {
+    const count = dailyCounts[dayOffset];
+    const daysAgo = dailyCounts.length - dayOffset;
+
+    for (let i = 0; i < count; i++) {
+      const platformInfo = platforms[(topicIdx + i) % platforms.length];
+      const topic = topics[topicIdx % topics.length];
+      topicIdx++;
+
+      conversations.push({
+        platform: platformInfo.platform,
+        title: topic,
+        model: platformInfo.model,
+        externalId: `bulk-demo-${String(dayOffset).padStart(2, "0")}-${String(i).padStart(2, "0")}`,
+        workspace: platformInfo.workspace,
+        daysAgo,
+        messages: [
+          { role: "user", content: `Help me with: ${topic}` },
+          {
+            role: "assistant",
+            content: `Here's my approach for "${topic}":\n\n1. First, analyze the current implementation\n2. Identify the root cause\n3. Apply the fix with proper testing\n\nLet me walk you through the details...`,
+          },
+          { role: "user", content: "Can you show me the code?" },
+          {
+            role: "assistant",
+            content: `Sure, here's the implementation:\n\n\`\`\`typescript\n// ${topic}\nexport function solution() {\n  // Implementation details...\n}\n\`\`\`\n\nThis should resolve the issue. Let me know if you need further adjustments.`,
+          },
+        ],
+      });
+    }
+  }
+
+  return conversations;
+}
+
+// Merge detailed + bulk conversations
+const ALL_CONVERSATIONS = [
+  ...SEED_CONVERSATIONS,
+  ...generateBulkConversations(),
+];
+
 // --- 种子插入逻辑 ---
 
 async function seed() {
   console.log("[Seed] Starting seed...");
 
-  // 清理现有种子数据（通过 externalId 前缀识别）
-  const demoIds = SEED_CONVERSATIONS.map((c) => c.externalId).filter(Boolean) as string[];
-  const existing = await prisma.conversation.findMany({
+  // Clean up existing seed data (by externalId prefix)
+  const existingDemo = await prisma.conversation.findMany({
     where: {
-      externalId: { in: demoIds },
+      OR: [
+        { externalId: { in: ALL_CONVERSATIONS.map((c) => c.externalId).filter(Boolean) as string[] } },
+        { externalId: { startsWith: "bulk-demo-" } },
+      ],
     },
     select: { id: true },
   });
 
-  if (existing.length > 0) {
-    console.log(`[Seed] Removing ${existing.length} existing demo conversations...`);
+  if (existingDemo.length > 0) {
+    console.log(`[Seed] Removing ${existingDemo.length} existing demo conversations...`);
     await prisma.conversation.deleteMany({
       where: {
-        id: { in: existing.map((c) => c.id) },
+        id: { in: existingDemo.map((c) => c.id) },
       },
     });
   }
 
   // 插入种子数据
-  for (const conv of SEED_CONVERSATIONS) {
+  for (const conv of ALL_CONVERSATIONS) {
     const conversationId = nanoid();
     const createdAt = randomDate(conv.daysAgo);
     const timestamps = timeSequence(createdAt, conv.messages.length);
@@ -661,7 +764,7 @@ async function seed() {
     console.log(`[Seed] Created: [${conv.platform}] ${conv.title}`);
   }
 
-  console.log(`[Seed] Done. ${SEED_CONVERSATIONS.length} conversations created.`);
+  console.log(`[Seed] Done. ${ALL_CONVERSATIONS.length} conversations created (${SEED_CONVERSATIONS.length} detailed + ${ALL_CONVERSATIONS.length - SEED_CONVERSATIONS.length} bulk).`);
 }
 
 seed()
