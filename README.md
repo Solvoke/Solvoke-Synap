@@ -184,35 +184,14 @@ If the future of "One-Person Companies" and AI-native workflows interests you:
 
 ## Contributing
 
-Contributions are welcome!
+Contributions are welcome! Please read [CONTRIBUTING.md](packages/web/CONTRIBUTING.md) for development setup, branch workflow, CI/CD details, and coding guidelines.
+
+Quick overview:
 
 - Use **English** for code, comments, and commit messages
 - Commit format: [Conventional Commits](https://www.conventionalcommits.org/) (e.g., `feat: add search filter`)
+- All changes go through Pull Request; CI must pass before merging
 - Run `npm run lint && npm run test` before submitting a PR
-
-### Branch Workflow
-
-- **`main`** -- Protected branch, always deployable
-- Create feature branches from `main`: `feat/xxx`, `fix/xxx`, `docs/xxx`
-- Submit a Pull Request to merge back into `main`
-- Direct pushes to `main` are restricted; all changes go through PR
-- PRs require CI checks to pass before merging
-
-### CI/CD
-
-Every push and PR triggers GitHub Actions CI:
-
-1. **Install** -- `npm ci` with dependency cache
-2. **Build** -- `npm run build` (core + web)
-3. **Test** -- `npm run test` (Vitest)
-4. **Lint** -- `npm run lint` (Biome for web, ESLint for core)
-5. **Type Check** -- `npm run typecheck`
-
-All checks must pass before merging.
-
-### Copilot Instructions & Skills
-
-This repo includes `.github/copilot-instructions.md` and `.github/skills/` for AI-assisted development. If you use GitHub Copilot or similar tools, these files provide project-specific coding conventions and workflows.
 
 ## License
 

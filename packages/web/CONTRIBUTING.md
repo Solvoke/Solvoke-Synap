@@ -1,6 +1,6 @@
-# Contributing to Solvoke Synap Web
+# Contributing to Solvoke Synap
 
-Thank you for your interest in contributing to Solvoke Synap! This guide will help you get set up for development.
+Thank you for your interest in contributing to Solvoke Synap! This guide covers everything you need to get started.
 
 ## Development Environment
 
@@ -13,34 +13,30 @@ Thank you for your interest in contributing to Solvoke Synap! This guide will he
 
 ### Setup
 
-1. **Fork and clone the repositories**
+This is a monorepo managed with npm workspaces:
 
-   You need both `synap-core` (shared library) and `synap-web`:
+```
+Solvoke-Synap/
+  packages/core/   # @synap/core (shared types, utilities)
+  packages/web/    # synap-web (Next.js dashboard + API)
+```
+
+1. **Fork and clone**
 
    ```bash
-   git clone https://github.com/YOUR_USERNAME/synap-core.git
-   git clone https://github.com/YOUR_USERNAME/synap-web.git
+   git clone https://github.com/YOUR_USERNAME/Solvoke-Synap.git
+   cd Solvoke-Synap
    ```
 
-2. **Build synap-core**
+2. **Install dependencies**
 
    ```bash
-   cd synap-core
    npm install
-   npm run build
-   cd ..
    ```
 
-3. **Install synap-web dependencies**
+   This automatically builds `@synap/core` and generates Prisma Client via the `postinstall` script.
 
-   ```bash
-   cd synap-web
-   npm install --install-links
-   ```
-
-   > `--install-links` copies `@synap/core` into `node_modules` as a real package. This avoids Turbopack symlink issues during development.
-
-4. **Start PostgreSQL**
+3. **Start PostgreSQL**
 
    Option A -- Use Docker:
    ```bash
@@ -54,10 +50,10 @@ Thank you for your interest in contributing to Solvoke Synap! This guide will he
 
    Option B -- Use an existing PostgreSQL instance.
 
-5. **Configure environment**
+4. **Configure environment**
 
    ```bash
-   cp .env.example .env
+   cp packages/web/.env.example packages/web/.env
    ```
 
    Edit `.env` with your database connection string:
@@ -65,14 +61,16 @@ Thank you for your interest in contributing to Solvoke Synap! This guide will he
    DATABASE_URL="postgresql://synap:synap@localhost:5432/synap"
    ```
 
-6. **Run migrations and seed data**
+5. **Run migrations and seed data**
 
    ```bash
+   cd packages/web
    npx prisma migrate deploy
-   npm run seed
+   npx tsx prisma/seed.ts
+   cd ../..
    ```
 
-7. **Start the dev server**
+6. **Start the dev server**
 
    ```bash
    npm run dev
@@ -82,13 +80,10 @@ Thank you for your interest in contributing to Solvoke Synap! This guide will he
 
 ### Rebuilding @synap/core
 
-If you modify `synap-core`, rebuild and reinstall:
+If you modify `packages/core`, the workspace handles linking automatically. Just rebuild:
 
 ```bash
-cd ../synap-core
-npm run build
-cd ../synap-web
-npm install --install-links
+npm run build -w packages/core
 ```
 
 ## Code Style
@@ -197,6 +192,43 @@ src/
 - **Prisma v7** with driver adapter for database access
 - **Result pattern** (`ok`/`err` from `@synap/core`) for expected errors
 
+## Branch Workflow
+
+- **`main`** -- Protected branch, always deployable
+- Create feature branches from `main` using the naming conventions above
+- Submit a Pull Request to merge back into `main`
+- Direct pushes to `main` are restricted; all changes go through PR
+- PRs require CI checks to pass before merging
+
+## CI/CD
+
+Every push and PR triggers GitHub Actions CI. All steps must pass before merging:
+
+1. **Install** -- `npm ci` with dependency cache
+2. **Build** -- `npm run build` (core + web)
+3. **Test** -- `npm run test` (Vitest, 61+ tests)
+4. **Lint** -- `npm run lint` (Biome for web, ESLint for core)
+5. **Type Check** -- `npm run typecheck`
+
+### Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start web dev server (auto-checks deps) |
+| `npm run build` | Build core + web for production |
+| `npm run test` | Run all tests |
+| `npm run lint` | Lint core + web |
+| `npm run typecheck` | TypeScript type checking |
+
+## Copilot Instructions & Skills
+
+This repo includes AI-assisted development configuration:
+
+- **`.github/copilot-instructions.md`** -- Project-wide coding conventions, naming rules, tech stack decisions
+- **`.github/skills/`** -- Specialized workflow skills (vibe-coding-workflow, memory-bank, refactor, etc.)
+
+If you use GitHub Copilot or similar AI coding tools, these files will automatically provide project-specific context and conventions.
+
 ## Questions?
 
-Open an issue for questions or discussion. We're happy to help!
+Open an [issue](https://github.com/Solvoke/Solvoke-Synap/issues/new) for questions or discussion. We're happy to help!
