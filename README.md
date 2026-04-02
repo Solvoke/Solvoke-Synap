@@ -4,9 +4,9 @@
 
 # Solvoke Synap
 
-**Cross-platform AI conversation manager.**
+**The Missing Memory Layer for your AI Copilots.**
 
-Collect, search, and organize your chats from ChatGPT, Claude, Copilot, Cursor, Claude Code, and more -- all in one place.
+Collect, search, and organize your chats from ChatGPT, Claude, Copilot, Cursor, and more -- effectively eliminating AI context silos.
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![CI](https://github.com/Solvoke/Solvoke-Synap/actions/workflows/ci.yml/badge.svg)](https://github.com/Solvoke/Solvoke-Synap/actions/workflows/ci.yml)
@@ -170,6 +170,17 @@ Upcoming platform support and features:
 - **Google Antigravity** -- IDE extension (VSCode-based)
 - **Project Management** -- Organize conversations into projects with notes and context
 - **AI Summary** -- Auto-generate conversation summaries and key takeaways
+
+## Beyond Synap: The Solvoke Vision
+
+Synap is the starting point. We built this memory layer to solve our own context fragmentation across AI tools, but the long-term goal is bigger.
+
+**Solvoke** is building an **AI Agent Workspace for Solopreneurs** (internally codenamed *Solvoke Corp*). The idea: turn the knowledge accumulated in Synap into an actionable base where PM, Dev, and Design agents collaborate to build software -- under your direct command.
+
+If the future of "One-Person Companies" and AI-native workflows interests you:
+
+- [Follow Solvoke on GitHub](https://github.com/Solvoke) for updates
+- Star this repository to support our journey
 
 ## Contributing
 

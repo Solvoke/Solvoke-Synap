@@ -4,9 +4,9 @@
 
 # Solvoke Synap
 
-**跨平台 AI 对话管理工具**
+**你的 AI 编程助手缺失的「记忆中枢」。**
 
-采集、搜索、整理你在 ChatGPT、Claude、Copilot、Cursor、Claude Code 等平台的对话记录 -- 全部汇聚于一处。
+打通 IDE 与 Web 端 AI 的数据壁垒。无感采集、聚合搜索你在 ChatGPT、Claude、Cursor 等平台的所有对话，彻底消除 AI 上下文孤岛。
 
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![CI](https://github.com/Solvoke/Solvoke-Synap/actions/workflows/ci.yml/badge.svg)](https://github.com/Solvoke/Solvoke-Synap/actions/workflows/ci.yml)
@@ -170,6 +170,17 @@ npm run dev
 - **Google Antigravity** -- IDE 插件（基于 VSCode）
 - **项目管理** -- 将对话按项目组织，附带笔记和上下文
 - **AI 摘要** -- 自动生成对话摘要和关键要点
+
+## 不止于 Synap：Solvoke 的愿景
+
+Synap 只是起点。我们构建这个「记忆中枢」，是为了解决自身在多个 AI 工具间的上下文割裂痛点，但我们的长期目标远不止于此。
+
+**Solvoke** 正在构建 **专为「超级个体 / 一人公司」打造的 AI Agent 工作台**（内部代号 *Solvoke Corp*）。设想：将 Synap 沉淀的知识库转化为可执行的基座，让产品、研发、设计 AI Agent 在你的指挥下协同构建软件。
+
+如果你对「一人公司」的未来和 AI 原生工作流感兴趣：
+
+- [关注 Solvoke 的 GitHub 组织](https://github.com/Solvoke) 获取最新动态
+- 给本项目点个 Star，这是对独立开发者最大的支持
 
 ## 参与贡献
 
