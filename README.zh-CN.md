@@ -60,6 +60,12 @@ Solvoke Synap 打通了这些壁垒：
 
 ## 生态系统
 
+<div align="center">
+  <img src="media/vscode-extension.png" alt="VSCode Extension" width="400" />
+  <img src="media/chrome-extension.png" alt="Chrome Extension" width="400" />
+  <p><em>左: VSCode/Cursor IDE 插件 &nbsp;|&nbsp; 右: Chrome 浏览器扩展 (ChatGPT)</em></p>
+</div>
+
 | 组件 | 来源 | 安装方式 |
 |------|------|----------|
 | **synap-web** (仪表盘 + API) | 本仓库 -- `packages/web` | Docker 或 npm |

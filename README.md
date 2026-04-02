@@ -60,6 +60,12 @@ Solvoke Synap bridges this gap:
 
 ## Ecosystem
 
+<div align="center">
+  <img src="media/vscode-extension.png" alt="VSCode Extension" width="400" />
+  <img src="media/chrome-extension.png" alt="Chrome Extension" width="400" />
+  <p><em>Left: VSCode/Cursor IDE Extension &nbsp;|&nbsp; Right: Chrome Browser Extension (ChatGPT)</em></p>
+</div>
+
 | Component | Source | Install |
 |-----------|--------|---------|
 | **synap-web** (Dashboard + API) | This repo -- `packages/web` | Docker or npm |
