@@ -13,7 +13,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
 
-[在线演示](https://synapdemo.solvoke.com) &middot; [文档](https://github.com/Solvoke/Solvoke-Synap/wiki) &middot; [反馈问题](https://github.com/Solvoke/Solvoke-Synap/issues)
+[在线演示](https://synapdemo.solvoke.com) &middot; [反馈问题](https://github.com/Solvoke/Solvoke-Synap/issues/new?template=bug_report.yml) &middot; [功能建议](https://github.com/Solvoke/Solvoke-Synap/issues/new?template=feature_request.yml)
 
 <img src="media/dashboard.png" alt="Solvoke Synap Dashboard" width="800" />
 
@@ -66,14 +66,14 @@ Solvoke Synap 打通了这些壁垒：
   <p><em>左: VSCode/Cursor IDE 插件 &nbsp;|&nbsp; 右: Chrome 浏览器扩展 (ChatGPT)</em></p>
 </div>
 
-| 组件 | 来源 | 安装方式 |
-|------|------|----------|
-| **synap-web** (仪表盘 + API) | 本仓库 -- `packages/web` | Docker 或 npm |
-| **@synap/core** (共享库) | 本仓库 -- `packages/core` | npm |
-| **浏览器扩展** (Chrome/Edge) | 闭源 | [Chrome Web Store](https://github.com/Solvoke/Solvoke-Synap/releases) |
-| **IDE 插件** (VSCode/Cursor) | 闭源 | [VS Code Marketplace](https://github.com/Solvoke/Solvoke-Synap/releases) |
+| 组件 | 安装方式 |
+|------|----------|
+| **synap-web** (仪表盘 + API) | [Docker 或 npm](#快速开始) |
+| **@synap/core** (共享库) | npm |
+| **浏览器扩展** (Chrome/Edge) | [GitHub Releases](https://github.com/Solvoke/Solvoke-Synap/releases) |
+| **IDE 插件** (VSCode/Cursor) | [GitHub Releases](https://github.com/Solvoke/Solvoke-Synap/releases) |
 
-> 数据层（core + web）以 AGPL-3.0 开源，方便你审计处理数据的代码。插件闭源是因为需要随平台 API 变化持续维护。
+> 数据层（core + web）以 AGPL-3.0 开源，方便你审计处理数据的代码。插件为闭源，目前通过 GitHub Releases 下载。
 
 ## 快速开始
 
@@ -151,23 +151,49 @@ npm run dev
 
 ## 支持平台
 
-| 平台 | 采集方式 |
-|------|----------|
-| ChatGPT | 浏览器扩展（网络拦截）|
-| Claude | 浏览器扩展（网络拦截）|
-| GitHub Copilot | IDE 插件（本地文件监听）|
-| Cursor | IDE 插件（本地文件监听）|
-| Claude Code | IDE 插件（本地文件监听）|
-| DeepSeek | 计划中 |
-| Gemini | 计划中 |
+| 平台 | 采集方式 | 状态 |
+|------|----------|------|
+| ChatGPT | 浏览器扩展（网络拦截）| 已支持 |
+| Claude | 浏览器扩展（网络拦截）| 已支持 |
+| GitHub Copilot | IDE 插件（本地文件监听）| 已支持 |
+| Cursor | IDE 插件（本地文件监听）| 已支持 |
+| Claude Code | IDE 插件（本地文件监听）| 开发中 |
+
+## 路线图
+
+即将支持的平台和功能：
+
+- **Claude Code** -- 完整 IDE 插件支持（开发中）
+- **DeepSeek** -- 浏览器扩展适配器
+- **Gemini Web** -- 浏览器扩展适配器
+- **OpenClaw** -- 浏览器扩展适配器
+- **Google Antigravity** -- 浏览器扩展适配器
+- **项目管理** -- 将对话按项目组织，附带笔记和上下文
+- **AI 摘要** -- 自动生成对话摘要和关键要点
 
 ## 参与贡献
 
-欢迎贡献! 详见 [CONTRIBUTING.md](packages/web/CONTRIBUTING.md)。
+欢迎贡献!
 
 - 代码、注释和 commit message 使用**英文**
 - Commit 格式: [Conventional Commits](https://www.conventionalcommits.org/)（如 `feat: add search filter`）
 - 提交 PR 前运行 `npm run lint && npm run test`
+
+### CI/CD
+
+每次 push 和 PR 都会触发 GitHub Actions CI：
+
+1. **安装** -- `npm ci` + 依赖缓存
+2. **构建** -- `npm run build`（core + web）
+3. **测试** -- `npm run test`（Vitest）
+4. **检查** -- `npm run lint`（web 用 Biome，core 用 ESLint）
+5. **类型检查** -- `npm run typecheck`
+
+所有检查通过后方可合并。
+
+### Copilot 指令与技能
+
+本仓库包含 `.github/copilot-instructions.md` 和 `.github/skills/`，用于 AI 辅助开发。如果你使用 GitHub Copilot 或类似工具，这些文件提供了项目专属的编码规范和工作流。
 
 ## 许可证
 

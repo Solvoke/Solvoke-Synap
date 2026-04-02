@@ -2,10 +2,7 @@
  * Solvoke Synap brand logo — S-shaped synapse icon.
  * Used in sidebar header, favicon fallback, and brand display.
  */
-export function SynapLogo({
-  size = 24,
-  className,
-}: { size?: number; className?: string }) {
+export function SynapLogo({ size = 24, className }: { size?: number; className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,8 +10,10 @@ export function SynapLogo({
       width={size}
       height={size}
       className={className}
+      role="img"
       aria-label="Solvoke Synap"
     >
+      <title>Solvoke Synap</title>
       <defs>
         <linearGradient id="synap-bg" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#1A1A1A" />

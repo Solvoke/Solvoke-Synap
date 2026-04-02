@@ -13,7 +13,7 @@ Collect, search, and organize your chats from ChatGPT, Claude, Copilot, Cursor, 
 [![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
 
-[Live Demo](https://synapdemo.solvoke.com) &middot; [Documentation](https://github.com/Solvoke/Solvoke-Synap/wiki) &middot; [Report Bug](https://github.com/Solvoke/Solvoke-Synap/issues)
+[Live Demo](https://synapdemo.solvoke.com) &middot; [Report Bug](https://github.com/Solvoke/Solvoke-Synap/issues/new?template=bug_report.yml) &middot; [Feature Request](https://github.com/Solvoke/Solvoke-Synap/issues/new?template=feature_request.yml)
 
 <img src="media/dashboard.png" alt="Solvoke Synap Dashboard" width="800" />
 
@@ -66,14 +66,14 @@ Solvoke Synap bridges this gap:
   <p><em>Left: VSCode/Cursor IDE Extension &nbsp;|&nbsp; Right: Chrome Browser Extension (ChatGPT)</em></p>
 </div>
 
-| Component | Source | Install |
-|-----------|--------|---------|
-| **synap-web** (Dashboard + API) | This repo -- `packages/web` | Docker or npm |
-| **@synap/core** (Shared library) | This repo -- `packages/core` | npm |
-| **Browser Extension** (Chrome/Edge) | Proprietary | [Chrome Web Store](https://github.com/Solvoke/Solvoke-Synap/releases) |
-| **IDE Extension** (VSCode/Cursor) | Proprietary | [VS Code Marketplace](https://github.com/Solvoke/Solvoke-Synap/releases) |
+| Component | Install |
+|-----------|--------|
+| **synap-web** (Dashboard + API) | [Docker or npm](#quick-start) |
+| **@synap/core** (Shared library) | npm |
+| **Browser Extension** (Chrome/Edge) | [GitHub Releases](https://github.com/Solvoke/Solvoke-Synap/releases) |
+| **IDE Extension** (VSCode/Cursor) | [GitHub Releases](https://github.com/Solvoke/Solvoke-Synap/releases) |
 
-> The data layer (core + web) is open-source under AGPL-3.0 so you can audit the code that handles your data. The plugins are proprietary because they require constant maintenance as platform APIs change.
+> The data layer (core + web) is open-source under AGPL-3.0 so you can audit the code that handles your data. The plugins are proprietary and currently available via GitHub Releases.
 
 ## Quick Start
 
@@ -151,23 +151,49 @@ The `dev` command checks that `@synap/core` is built and Prisma Client is genera
 
 ## Supported Platforms
 
-| Platform | Collection Method |
-|----------|------------------|
-| ChatGPT | Browser Extension (network intercept) |
-| Claude | Browser Extension (network intercept) |
-| GitHub Copilot | IDE Extension (local file watch) |
-| Cursor | IDE Extension (local file watch) |
-| Claude Code | IDE Extension (local file watch) |
-| DeepSeek | Planned |
-| Gemini | Planned |
+| Platform | Collection Method | Status |
+|----------|------------------|--------|
+| ChatGPT | Browser Extension (network intercept) | Available |
+| Claude | Browser Extension (network intercept) | Available |
+| GitHub Copilot | IDE Extension (local file watch) | Available |
+| Cursor | IDE Extension (local file watch) | Available |
+| Claude Code | IDE Extension (local file watch) | In Development |
+
+## Roadmap
+
+Upcoming platform support and features:
+
+- **Claude Code** -- Full IDE extension support (in development)
+- **DeepSeek** -- Browser extension adapter
+- **Gemini Web** -- Browser extension adapter
+- **OpenClaw** -- Browser extension adapter
+- **Google Antigravity** -- Browser extension adapter
+- **Project Management** -- Organize conversations into projects with notes and context
+- **AI Summary** -- Auto-generate conversation summaries and key takeaways
 
 ## Contributing
 
-Contributions are welcome! See [CONTRIBUTING.md](packages/web/CONTRIBUTING.md) for development setup and guidelines.
+Contributions are welcome!
 
 - Use **English** for code, comments, and commit messages
 - Commit format: [Conventional Commits](https://www.conventionalcommits.org/) (e.g., `feat: add search filter`)
 - Run `npm run lint && npm run test` before submitting a PR
+
+### CI/CD
+
+Every push and PR triggers GitHub Actions CI:
+
+1. **Install** -- `npm ci` with dependency cache
+2. **Build** -- `npm run build` (core + web)
+3. **Test** -- `npm run test` (Vitest)
+4. **Lint** -- `npm run lint` (Biome for web, ESLint for core)
+5. **Type Check** -- `npm run typecheck`
+
+All checks must pass before merging.
+
+### Copilot Instructions & Skills
+
+This repo includes `.github/copilot-instructions.md` and `.github/skills/` for AI-assisted development. If you use GitHub Copilot or similar tools, these files provide project-specific coding conventions and workflows.
 
 ## License
 
