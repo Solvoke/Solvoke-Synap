@@ -1,112 +1,172 @@
+<div align="center">
+
 # Solvoke Synap
 
-> Cross-platform AI conversation manager. Collect, search, and organize your chats from ChatGPT, Claude, Copilot, Cursor, and more.
+**Cross-platform AI conversation manager.**
 
-This is the monorepo for Solvoke Synap's open-source components:
+Collect, search, and organize your chats from ChatGPT, Claude, Copilot, Cursor, Claude Code, and more -- all in one place.
 
-| Package | Description |
-|---------|-------------|
-| [packages/core](packages/core/) | `@synap/core` -- Shared types, data models, validation schemas |
-| [packages/web](packages/web/) | `synap-web` -- Next.js Web Dashboard + API Server |
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![CI](https://github.com/Solvoke/Solvoke-Synap/actions/workflows/ci.yml/badge.svg)](https://github.com/Solvoke/Solvoke-Synap/actions/workflows/ci.yml)
+[![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
 
-## Quick Start (Docker)
+[Live Demo](https://synapdemo.solvoke.com) &middot; [Documentation](https://github.com/Solvoke/Solvoke-Synap/wiki) &middot; [Report Bug](https://github.com/Solvoke/Solvoke-Synap/issues)
+
+</div>
+
+---
+
+## Why Solvoke Synap?
+
+AI conversations are scattered across ChatGPT tabs, Claude windows, Copilot sidebars, and Cursor editors. Finding that one useful code snippet or prompt from last week means digging through multiple platforms.
+
+Solvoke Synap bridges this gap:
+
+- **Local-first backup** -- Your conversations stay on your machine, not locked in cloud silos
+- **Cross-platform search** -- Search across all your AI chats in one dashboard
+- **Project-level organization** -- Tag and group conversations by project
+- **Auto-sync from plugins** -- Browser extension and IDE plugins collect conversations automatically
+- **Self-hosted** -- Deploy with one command, keep full control of your data
+
+## Architecture
+
+```
++-------------------+     +-------------------+
+| Browser Extension |     |   IDE Extension   |
+| (ChatGPT, Claude) |     | (Copilot, Cursor, |
++--------+----------+     |  Claude Code)     |
+         |                 +--------+----------+
+         |    REST API (sync)       |
+         +------------+-------------+
+                      |
+                      v
+         +------------+-------------+
+         |        synap-web         |
+         |   Dashboard + API Server |
+         +------------+-------------+
+                      |
+                      v
+              +-------+-------+
+              |  PostgreSQL   |
+              +---------------+
+                      |
+              @synap/core (shared types)
+```
+
+## Ecosystem
+
+| Component | Source | Install |
+|-----------|--------|---------|
+| **synap-web** (Dashboard + API) | This repo -- `packages/web` | Docker or npm |
+| **@synap/core** (Shared library) | This repo -- `packages/core` | npm |
+| **Browser Extension** (Chrome/Edge) | Proprietary | [Chrome Web Store](https://github.com/Solvoke/Solvoke-Synap/releases) |
+| **IDE Extension** (VSCode/Cursor) | Proprietary | [VS Code Marketplace](https://github.com/Solvoke/Solvoke-Synap/releases) |
+
+> The data layer (core + web) is open-source under AGPL-3.0 so you can audit the code that handles your data. The plugins are proprietary because they require constant maintenance as platform APIs change.
+
+## Quick Start
+
+### Docker (recommended)
+
+```bash
+git clone https://github.com/Solvoke/Solvoke-Synap.git
+cd Solvoke-Synap
+./deploy.sh
+```
+
+The deploy script handles everything automatically:
+- Checks Docker and Docker Compose availability
+- Generates a secure database password
+- Detects port conflicts and picks an available port
+- Starts PostgreSQL + synap-web and waits for health check
+
+Open **http://localhost:3000** when it's ready.
+
+#### Options
+
+```bash
+SYNAP_PORT=8080 ./deploy.sh           # Custom port
+SYNAP_DB_PASSWORD=mypass ./deploy.sh   # Custom DB password
+```
+
+### Development
+
+**Prerequisites:** Node.js 20+, PostgreSQL 15+ (or Docker), npm
 
 ```bash
 git clone https://github.com/Solvoke/Solvoke-Synap.git
 cd Solvoke-Synap
 
-# One-click deploy (recommended)
-./deploy.sh
-```
-
-The deploy script automatically:
-- Checks Docker and Docker Compose versions
-- Generates a random database password
-- Detects port conflicts and picks an available port
-- Starts all services and waits for health check
-
-Dashboard: **http://localhost:3000**
-
-### Configuration
-
-Set environment variables before running `deploy.sh`:
-
-```bash
-SYNAP_PORT=8080 ./deploy.sh           # Custom port
-SYNAP_DB_PASSWORD=mypass ./deploy.sh   # Custom database password
-```
-
-### Manual deploy
-
-```bash
-docker compose up -d
-```
-
-## Development Setup
-
-### Prerequisites
-
-- Node.js 20+
-- PostgreSQL 15+ (or use Docker Compose)
-- npm
-
-### Install and run
-
-```bash
-# Install all dependencies (automatically builds core + generates Prisma Client)
+# Install dependencies (auto-builds core + generates Prisma Client)
 npm install
 
 # Configure database
 cp packages/web/.env.example packages/web/.env
 # Edit .env with your PostgreSQL connection string
 
-# Run database migrations
+# Run migrations
 cd packages/web && npx prisma migrate deploy && cd ../..
 
 # Start dev server
 npm run dev
 ```
 
-The `dev` command automatically checks that `@synap/core` is built and Prisma Client is generated. If anything is missing, it rebuilds before starting.
+The `dev` command checks that `@synap/core` is built and Prisma Client is generated before starting. If anything is missing, it rebuilds automatically.
 
-### Custom port
-
-```bash
-PORT=4000 npm run dev
-```
-
-### Available scripts
+### Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start web dev server (auto-checks dependencies) |
+| `npm run dev` | Start web dev server (auto-checks deps) |
 | `npm run build` | Build core + web for production |
 | `npm run test` | Run all tests (core: 61 tests) |
 | `npm run lint` | Lint core + web |
 | `npm run typecheck` | TypeScript type checking |
-| `npm run build:core` | Build @synap/core only |
-| `npm run build:web` | Build synap-web only |
-
-## Architecture
-
-```
-Browser Extensions ──┐
-  (ChatGPT, Claude)  │
-                     ├──> synap-web (API Server + Dashboard)
-IDE Extensions ──────┘         │
-  (Copilot, Cursor,            v
-   Claude Code)          PostgreSQL
-                              │
-                     @synap/core (shared types)
-```
 
 ## Tech Stack
 
-- **Monorepo**: npm workspaces
-- **Core**: TypeScript, zod, nanoid
-- **Web**: Next.js 16 (App Router), Prisma v7, PostgreSQL, TailwindCSS v4, shadcn/ui, next-intl, Zustand, Biome
-- **Testing**: vitest
+| Layer | Technology |
+|-------|-----------|
+| Monorepo | npm workspaces |
+| Shared library | TypeScript, zod, nanoid |
+| Web framework | Next.js 16 (App Router) |
+| Database | Prisma v7 + PostgreSQL |
+| UI | TailwindCSS v4, shadcn/ui |
+| i18n | next-intl (en, zh-CN) |
+| State | Zustand |
+| Code quality | Biome (lint + format) |
+| Testing | Vitest |
+| CI/CD | GitHub Actions |
+
+## Supported Platforms
+
+| Platform | Collection Method |
+|----------|------------------|
+| ChatGPT | Browser Extension (network intercept) |
+| Claude | Browser Extension (network intercept) |
+| GitHub Copilot | IDE Extension (local file watch) |
+| Cursor | IDE Extension (local file watch) |
+| Claude Code | IDE Extension (local file watch) |
+| DeepSeek | Planned |
+| Gemini | Planned |
+
+## Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](packages/web/CONTRIBUTING.md) for development setup and guidelines.
+
+- Use **English** for code, comments, and commit messages
+- Commit format: [Conventional Commits](https://www.conventionalcommits.org/) (e.g., `feat: add search filter`)
+- Run `npm run lint && npm run test` before submitting a PR
 
 ## License
 
-AGPL-3.0 -- See [packages/core/LICENSE](packages/core/LICENSE) and [packages/web/LICENSE](packages/web/LICENSE).
+This project is licensed under **AGPL-3.0**. See [LICENSE](packages/core/LICENSE) for details.
+
+The AGPL license ensures that modifications to the data layer remain open-source, protecting user trust while allowing self-hosting.
+
+---
+
+<div align="center">
+  <sub>Built by <a href="https://github.com/Solvoke">Solvoke</a></sub>
+</div>
