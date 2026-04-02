@@ -190,6 +190,14 @@ Contributions are welcome!
 - Commit format: [Conventional Commits](https://www.conventionalcommits.org/) (e.g., `feat: add search filter`)
 - Run `npm run lint && npm run test` before submitting a PR
 
+### Branch Workflow
+
+- **`main`** -- Protected branch, always deployable
+- Create feature branches from `main`: `feat/xxx`, `fix/xxx`, `docs/xxx`
+- Submit a Pull Request to merge back into `main`
+- Direct pushes to `main` are restricted; all changes go through PR
+- PRs require CI checks to pass before merging
+
 ### CI/CD
 
 Every push and PR triggers GitHub Actions CI:
