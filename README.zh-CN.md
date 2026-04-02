@@ -166,8 +166,8 @@ npm run dev
 - **Claude Code** -- 完整 IDE 插件支持（开发中）
 - **DeepSeek** -- 浏览器扩展适配器
 - **Gemini Web** -- 浏览器扩展适配器
-- **OpenClaw** -- 浏览器扩展适配器
-- **Google Antigravity** -- 浏览器扩展适配器
+- **OpenClaw** -- 本地对话日志采集
+- **Google Antigravity** -- IDE 插件（基于 VSCode）
 - **项目管理** -- 将对话按项目组织，附带笔记和上下文
 - **AI 摘要** -- 自动生成对话摘要和关键要点
 

@@ -166,8 +166,8 @@ Upcoming platform support and features:
 - **Claude Code** -- Full IDE extension support (in development)
 - **DeepSeek** -- Browser extension adapter
 - **Gemini Web** -- Browser extension adapter
-- **OpenClaw** -- Browser extension adapter
-- **Google Antigravity** -- Browser extension adapter
+- **OpenClaw** -- Local conversation log collection
+- **Google Antigravity** -- IDE extension (VSCode-based)
 - **Project Management** -- Organize conversations into projects with notes and context
 - **AI Summary** -- Auto-generate conversation summaries and key takeaways
 
