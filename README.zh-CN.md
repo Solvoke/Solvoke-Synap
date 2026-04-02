@@ -2,6 +2,8 @@
 
 [English](README.md) | **中文**
 
+<img src="media/logo.svg" alt="Solvoke Synap" width="80" />
+
 # Solvoke Synap
 
 **你的 AI 编程助手缺失的「记忆中枢」。**

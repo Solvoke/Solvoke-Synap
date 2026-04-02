@@ -2,6 +2,8 @@
 
 **English** | [中文](README.zh-CN.md)
 
+<img src="media/logo.svg" alt="Solvoke Synap" width="80" />
+
 # Solvoke Synap
 
 **The Missing Memory Layer for your AI Copilots.**
