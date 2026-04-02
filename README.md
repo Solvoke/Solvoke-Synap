@@ -1,5 +1,7 @@
 <div align="center">
 
+**English** | [中文](README.zh-CN.md)
+
 # Solvoke Synap
 
 **Cross-platform AI conversation manager.**
@@ -12,6 +14,8 @@ Collect, search, and organize your chats from ChatGPT, Claude, Copilot, Cursor, 
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
 
 [Live Demo](https://synapdemo.solvoke.com) &middot; [Documentation](https://github.com/Solvoke/Solvoke-Synap/wiki) &middot; [Report Bug](https://github.com/Solvoke/Solvoke-Synap/issues)
+
+<img src="media/dashboard.png" alt="Solvoke Synap Dashboard" width="800" />
 
 </div>
 
