@@ -133,8 +133,22 @@ configure() {
 
   # Generate DB password if not provided
   if [ -z "$db_password" ]; then
-    db_password=$(generate_password)
-    info "Generated random database password."
+    # Reuse existing password from .env if present — PostgreSQL only reads
+    # POSTGRES_PASSWORD on first volume init; regenerating it would cause
+    # authentication failures on subsequent deploy.sh runs.
+    if [ -f .env ]; then
+      local existing_pw
+      existing_pw=$(grep '^POSTGRES_PASSWORD=' .env | cut -d= -f2- || true)
+      if [ -n "$existing_pw" ]; then
+        db_password="$existing_pw"
+        info "Reusing existing database password from .env"
+      fi
+    fi
+    # Generate a fresh password only on first deployment
+    if [ -z "$db_password" ]; then
+      db_password=$(generate_password)
+      info "Generated random database password."
+    fi
   fi
 
   # Write .env for docker-compose override
