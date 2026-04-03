@@ -63,10 +63,10 @@ export const DEFAULT_PAGE_SIZE = 20;
 export const MAX_PAGE_SIZE = 100;
 
 /** 单次同步最大对话数 */
-export const MAX_SYNC_CONVERSATIONS = 50;
+export const MAX_SYNC_CONVERSATIONS = 10;
 
-/** 同步请求体大小限制（字节）— 4MB */
-export const MAX_SYNC_BODY_SIZE = 4 * 1024 * 1024;
+/** 同步请求体大小限制（字节）— 50MB */
+export const MAX_SYNC_BODY_SIZE = 50 * 1024 * 1024;
 
 /** 对话标题最大长度 */
 export const MAX_TITLE_LENGTH = 200;
@@ -77,7 +77,7 @@ export const PREVIEW_CONTENT_LENGTH = 200;
 // ========== 时间相关 ==========
 
 /** 网络请求超时（毫秒） */
-export const REQUEST_TIMEOUT_MS = 10_000;
+export const REQUEST_TIMEOUT_MS = 30_000;
 
 /** 健康检查超时（毫秒） — 快速探测，不宜过长 */
 export const HEALTH_CHECK_TIMEOUT_MS = 5_000;
